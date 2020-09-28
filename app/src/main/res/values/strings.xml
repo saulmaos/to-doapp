@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">To-do App</string>
+    <string name="tast_todo_title">¿Qué se necesita hacer?</string>
+    <string name="enter_task_hint">Ingresa la tarea aquí</string>
+    <string name="date_title">Fecha</string>
+    <string name="enter_date_hint">Sin fecha</string>
 </resources>
