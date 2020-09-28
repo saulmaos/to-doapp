@@ -3,15 +3,21 @@ package com.recodigo.todoapp.ui.mainActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.recodigo.todoapp.R
+import com.recodigo.todoapp.ToDoApplication
+import com.recodigo.todoapp.data.local.db.TaskDB
 import com.recodigo.todoapp.data.repository.Repository
 import com.recodigo.todoapp.ui.addTaskActivity.AddTaskActivity
+import com.recodigo.todoapp.ui.mainActivity.adapter.TaskAdapter
 import com.recodigo.todoapp.utils.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var taskAdapter: TaskAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         setListeners()
         createViewModel()
+        setAdapter()
+        setObservers()
     }
 
     private fun setListeners() {
@@ -28,9 +36,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createViewModel() {
-        val repository = Repository()
+        val repository = (application as ToDoApplication).repository
         val viewModelProviderFactory = ViewModelProviderFactory(repository)
 
         mainViewModel = ViewModelProvider(this, viewModelProviderFactory).get(MainViewModel::class.java)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.getTasks()
+    }
+
+    private fun setAdapter() {
+        taskAdapter = TaskAdapter(ArrayList())
+
+        rvTasks.layoutManager = LinearLayoutManager(this)
+        rvTasks.adapter = taskAdapter
+    }
+
+    private fun setObservers() {
+        mainViewModel.tasks.observe(this, Observer {
+            taskAdapter.addTasks(it)
+        })
     }
 }
