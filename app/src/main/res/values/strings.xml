@@ -4,4 +4,7 @@
     <string name="enter_task_hint">Ingresa la tarea aquí</string>
     <string name="date_title">Fecha</string>
     <string name="enter_date_hint">Sin fecha</string>
+    <string name="save_task">Guardar</string>
+    <string name="error_task_title_empty">Ingrese una tarea</string>
+    <string name="error_task_date_empty">Ingrese una fecha</string>
 </resources>
