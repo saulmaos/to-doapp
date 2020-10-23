@@ -1,7 +1,7 @@
 package com.recodigo.todoapp
 
 import android.app.Application
-import com.recodigo.todoapp.data.local.db.TaskDB
+import com.recodigo.todoapp.data.local.db.AppDatabase
 import com.recodigo.todoapp.data.repository.Repository
 
 /**
@@ -14,6 +14,6 @@ class ToDoApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        repository = Repository(TaskDB())
+        repository = Repository(AppDatabase.getDatabase(applicationContext))
     }
 }

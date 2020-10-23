@@ -32,7 +32,7 @@ class AddTaskViewModel(private val repository: Repository) : ViewModel() {
             return
         }
 
-        val task = TaskEntity(taskTitle, date)
+        val task = TaskEntity(task = taskTitle, date = date)
         repository.saveTask(task)
         _finish.postValue(true)
     }

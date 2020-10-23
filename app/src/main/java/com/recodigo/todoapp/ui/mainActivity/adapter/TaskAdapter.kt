@@ -27,7 +27,7 @@ class TaskAdapter(private val tasks: ArrayList<TaskEntity>
         holder.bind(tasks[position])
     }
 
-    fun addTasks(newTasks: ArrayList<TaskEntity>) {
+    fun addTasks(newTasks: List<TaskEntity>) {
         tasks.clear()
         tasks.addAll(newTasks)
         notifyDataSetChanged()

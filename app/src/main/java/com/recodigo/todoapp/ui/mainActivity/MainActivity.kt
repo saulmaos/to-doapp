@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.recodigo.todoapp.R
 import com.recodigo.todoapp.ToDoApplication
-import com.recodigo.todoapp.data.local.db.TaskDB
-import com.recodigo.todoapp.data.repository.Repository
 import com.recodigo.todoapp.ui.addTaskActivity.AddTaskActivity
 import com.recodigo.todoapp.ui.mainActivity.adapter.TaskAdapter
 import com.recodigo.todoapp.utils.ViewModelProviderFactory

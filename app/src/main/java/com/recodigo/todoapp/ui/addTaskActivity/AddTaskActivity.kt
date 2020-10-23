@@ -6,8 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.recodigo.todoapp.R
 import com.recodigo.todoapp.ToDoApplication
-import com.recodigo.todoapp.data.local.db.TaskDB
-import com.recodigo.todoapp.data.repository.Repository
 import com.recodigo.todoapp.utils.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_add_task.*
 

@@ -12,8 +12,8 @@ import com.recodigo.todoapp.data.repository.Repository
  */
 class MainViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _tasks: MutableLiveData<ArrayList<TaskEntity>> = MutableLiveData()
-    val tasks: LiveData<ArrayList<TaskEntity>> = _tasks
+    private val _tasks: MutableLiveData<List<TaskEntity>> = MutableLiveData()
+    val tasks: LiveData<List<TaskEntity>> = _tasks
 
     fun getTasks() {
         val savedTasks = repository.getTasks()
