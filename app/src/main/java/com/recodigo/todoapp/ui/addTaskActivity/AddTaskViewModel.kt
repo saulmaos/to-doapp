@@ -11,6 +11,9 @@ import com.recodigo.todoapp.data.repository.Repository
  * Created by SAUL on 28/09/2020.
  */
 class AddTaskViewModel(private val repository: Repository) : ViewModel() {
+    companion object {
+        const val INTENT_TASK = "intent_task"
+    }
 
     private val _taskTitleError: MutableLiveData<Int> = MutableLiveData()
     val taskTitleError: LiveData<Int> = _taskTitleError
@@ -18,11 +21,20 @@ class AddTaskViewModel(private val repository: Repository) : ViewModel() {
     private val _taskDateError: MutableLiveData<Int> = MutableLiveData()
     val taskDateError: LiveData<Int> = _taskDateError
 
+    private val _updateTaskFields: MutableLiveData<TaskEntity> = MutableLiveData()
+    val updateTaskFields: LiveData<TaskEntity> = _updateTaskFields
+
     // This will modified in the future
     private val _finish: MutableLiveData<Boolean> = MutableLiveData()
     val finish: LiveData<Boolean> = _finish
 
-    fun onBtnSavePressed(taskTitle: String, date: String) {
+    fun onInitValues(task: TaskEntity?) {
+        task?.let {
+            _updateTaskFields.postValue(it)
+        } ?: _updateTaskFields.postValue(TaskEntity(task = "", date = "", completed = false))
+    }
+
+    fun onBtnSavePressed(taskTitle: String, date: String, completed: Boolean) {
         if (taskTitle.isEmpty()) {
             _taskTitleError.postValue(R.string.error_task_title_empty)
             return
@@ -31,9 +43,12 @@ class AddTaskViewModel(private val repository: Repository) : ViewModel() {
             _taskDateError.postValue(R.string.error_task_date_empty)
             return
         }
-
-        val task = TaskEntity(task = taskTitle, date = date)
-        repository.saveTask(task)
+        updateTaskFields.value?.let { task ->
+            task.task = taskTitle
+            task.date = date
+            task.completed = completed
+            repository.saveTask(task)
+        }
         _finish.postValue(true)
     }
 }

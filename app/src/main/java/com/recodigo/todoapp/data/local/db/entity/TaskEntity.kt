@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 /**
  * Created by SAUL on 28/09/2020.
@@ -16,13 +17,13 @@ data class TaskEntity(
 
     @ColumnInfo(name = "task")
     @NonNull
-    val task: String,
+    var task: String,
 
     @ColumnInfo(name = "date")
     @NonNull
-    val date: String,
+    var date: String,
 
     @ColumnInfo(name = "completed")
     @NonNull
-    val completed: Boolean = false
-)
+    var completed: Boolean = false
+): Serializable

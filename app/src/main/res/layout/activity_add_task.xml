@@ -48,6 +48,15 @@
         app:layout_constraintTop_toBottomOf="@id/tvDateTitle"
         />
 
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbTaskFinished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cb_task_finished"
+        app:layout_constraintTop_toBottomOf="@id/etDate"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
     <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"

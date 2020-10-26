@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.recodigo.todoapp.R
 import com.recodigo.todoapp.ToDoApplication
 import com.recodigo.todoapp.ui.addTaskActivity.AddTaskActivity
+import com.recodigo.todoapp.ui.addTaskActivity.AddTaskViewModel
 import com.recodigo.todoapp.ui.mainActivity.adapter.TaskAdapter
 import com.recodigo.todoapp.utils.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
@@ -46,7 +47,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setAdapter() {
-        taskAdapter = TaskAdapter(ArrayList())
+        taskAdapter = TaskAdapter(ArrayList()) { task ->
+            val intent = Intent(this, AddTaskActivity::class.java).apply {
+                putExtra(AddTaskViewModel.INTENT_TASK, task)
+            }
+            startActivity(intent)
+        }
 
         rvTasks.layoutManager = LinearLayoutManager(this)
         rvTasks.adapter = taskAdapter

@@ -9,7 +9,8 @@ import com.recodigo.todoapp.data.local.db.entity.TaskEntity
 class Repository(private val taskDB: AppDatabase) {
 
     fun saveTask(task: TaskEntity) {
-        taskDB.taskDao.insert(task)
+        if (task.id == 0L) taskDB.taskDao.insert(task)
+        else taskDB.taskDao.update(task)
     }
 
     fun getTasks() = taskDB.taskDao.getAllTasks()

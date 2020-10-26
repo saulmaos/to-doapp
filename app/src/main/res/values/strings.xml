@@ -7,4 +7,7 @@
     <string name="save_task">Guardar</string>
     <string name="error_task_title_empty">Ingrese una tarea</string>
     <string name="error_task_date_empty">Ingrese una fecha</string>
+    <string name="cb_task_finished">Terminé la tarea</string>
+    <string name="tasks_status_active">Activas</string>
+    <string name="tasks_status_completed">Completadas</string>
 </resources>
