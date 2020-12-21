@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.recodigo.todoapp.R
 import com.recodigo.todoapp.data.local.db.entity.TaskEntity
 import com.recodigo.todoapp.data.repository.Repository
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by SAUL on 28/09/2020.
@@ -14,6 +16,8 @@ class AddTaskViewModel(private val repository: Repository) : ViewModel() {
     companion object {
         const val INTENT_TASK = "intent_task"
     }
+
+    private val compositeDisposable = CompositeDisposable()
 
     private val _taskTitleError: MutableLiveData<Int> = MutableLiveData()
     val taskTitleError: LiveData<Int> = _taskTitleError
@@ -48,7 +52,15 @@ class AddTaskViewModel(private val repository: Repository) : ViewModel() {
             task.date = date
             task.completed = completed
             repository.saveTask(task)
+                .subscribeOn(Schedulers.io())
+                .subscribe()
+                .let { compositeDisposable.add(it) }
         }
         _finish.postValue(true)
+    }
+
+    override fun onCleared() {
+        compositeDisposable.dispose()
+        super.onCleared()
     }
 }

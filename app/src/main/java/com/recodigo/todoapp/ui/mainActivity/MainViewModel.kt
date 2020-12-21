@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.recodigo.todoapp.R
 import com.recodigo.todoapp.data.local.db.entity.TaskEntity
 import com.recodigo.todoapp.data.repository.Repository
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by SAUL on 28/09/2020.
@@ -15,9 +19,24 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     private val _tasks: MutableLiveData<List<Any>> = MutableLiveData()
     val tasks: LiveData<List<Any>> = _tasks
 
+    private val compositeDisposable = CompositeDisposable()
+
     fun getTasks() {
-        val savedTasks = repository.getTasks()
-        _tasks.postValue(addStatus(savedTasks))
+        repository.getTasks()
+            .map {
+                addStatus(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    _tasks.postValue(it)
+                },
+                {
+                    it.printStackTrace()
+                }
+            )
+            .let { compositeDisposable.add(it) }
     }
 
     private fun addStatus(tasks: List<TaskEntity>): List<Any> {
@@ -39,5 +58,10 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
             tasksAndStatus.addAll(completedTasks)
         }
         return tasksAndStatus.toList()
+    }
+
+    override fun onCleared() {
+        compositeDisposable.dispose()
+        super.onCleared()
     }
 }

@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         createViewModel()
         setAdapter()
         setObservers()
+
+        mainViewModel.getTasks()
     }
 
     private fun setListeners() {
@@ -39,11 +41,6 @@ class MainActivity : AppCompatActivity() {
         val viewModelProviderFactory = ViewModelProviderFactory(repository)
 
         mainViewModel = ViewModelProvider(this, viewModelProviderFactory).get(MainViewModel::class.java)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mainViewModel.getTasks()
     }
 
     private fun setAdapter() {

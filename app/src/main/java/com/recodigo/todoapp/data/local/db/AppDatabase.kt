@@ -35,7 +35,6 @@ abstract class AppDatabase: RoomDatabase() {
                     AppDatabase::class.java,
                     "db-recodigo"
                 )
-                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 return instance
