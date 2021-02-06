@@ -13,17 +13,26 @@ import com.recodigo.todoapp.ui.addTaskActivity.AddTaskViewModel
 import com.recodigo.todoapp.ui.mainActivity.adapter.TaskAdapter
 import com.recodigo.todoapp.utils.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mainViewModel: MainViewModel
+
+    @Inject
+    lateinit var mainViewModel: MainViewModel
+
     private lateinit var taskAdapter: TaskAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as ToDoApplication).applicationComponent
+            .getMainComponent()
+            .create(this)
+            .inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setListeners()
-        createViewModel()
+
         setAdapter()
         setObservers()
 
@@ -34,13 +43,6 @@ class MainActivity : AppCompatActivity() {
         fabCreateTask.setOnClickListener {
             startActivity(Intent(this, AddTaskActivity::class.java))
         }
-    }
-
-    private fun createViewModel() {
-        val repository = (application as ToDoApplication).repository
-        val viewModelProviderFactory = ViewModelProviderFactory(repository)
-
-        mainViewModel = ViewModelProvider(this, viewModelProviderFactory).get(MainViewModel::class.java)
     }
 
     private fun setAdapter() {

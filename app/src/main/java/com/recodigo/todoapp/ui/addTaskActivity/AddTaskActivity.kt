@@ -9,25 +9,25 @@ import com.recodigo.todoapp.ToDoApplication
 import com.recodigo.todoapp.data.local.db.entity.TaskEntity
 import com.recodigo.todoapp.utils.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_add_task.*
+import javax.inject.Inject
 
 class AddTaskActivity : AppCompatActivity() {
-    private lateinit var addTaskViewModel: AddTaskViewModel
+
+    @Inject
+    lateinit var addTaskViewModel: AddTaskViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as ToDoApplication).applicationComponent
+            .getDetailComponent()
+            .create(this)
+            .inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_task)
 
-        createViewModel()
         setListeners()
         setObservers()
         setInitialValuesIfPossible()
-    }
-
-    private fun createViewModel() {
-        val repository = (application as ToDoApplication).repository
-        val viewModelProviderFactory = ViewModelProviderFactory(repository)
-
-        addTaskViewModel = ViewModelProvider(this, viewModelProviderFactory).get(AddTaskViewModel::class.java)
     }
 
     private fun setListeners() {
